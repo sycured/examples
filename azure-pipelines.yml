@@ -22,7 +22,7 @@ steps:
 - task: Docker@2
   inputs:
     containerRegistry: 'sycured on docker hub'
-    repository: 'tsco-ado-node'
+    repository: 'sycured/tsco-ado-node'
     command: 'buildAndPush'
     Dockerfile: '**/Dockerfile'
     tags: |

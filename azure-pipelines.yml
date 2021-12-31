@@ -1,0 +1,31 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- name: NODE_ENV
+  value: development
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    cd servers/express/api-with-express-and-handlebars
+    npm install
+    npm run test
+  displayName: 'npm install and test'
+
+- task: Docker@2
+  inputs:
+    containerRegistry: 'sycured on docker hub'
+    repository: 'tsco-ado-node'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+    tags: |
+      $(Build.BuildId)
+      latest
